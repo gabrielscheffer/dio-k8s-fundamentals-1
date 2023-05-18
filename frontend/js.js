@@ -5,7 +5,8 @@ $("#button-blue").on("click", function() {
     var txt_comentario = $("#comment").val();
 
     $.ajax({
-        url: "",
+        // from $(minikube service backend --url)
+        url: "http://192.168.39.80:30488",
         
         type: "post",
         data: {nome: txt_nome, comentario: txt_comentario, email: txt_email},

@@ -1,0 +1,61 @@
+### DEPLOY DATABASE
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dio-db
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: dio-db
+  template:
+    metadata:
+      labels:
+        app: dio-db
+    spec:
+      containers:
+      - image: quay.io/gscheffe/dio-db:1.0
+        name: mariadb
+        env:
+        - name: MARIADB_ROOT_PASSWORD
+          value: qwerty.1234
+        - name: MARIADB_DATABASE
+          value: desafio1
+        ports:
+        - containerPort: 3306
+          name: mariadb
+
+        volumeMounts:
+          - mountPath: /var/lib/mysql/data
+            name: ephemeral-data
+      volumes:
+      - emptyDir:
+          medium: ""
+        name: ephemeral-data
+
+---
+### DEPLOY BACKEND
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend-php
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-php
+  template:
+    metadata:
+      labels:
+        app: backend-php
+    spec:
+      containers:
+      - name: backend
+        image: quay.io/gscheffe/dio-backend:1.0
+        ports:
+        - containerPort: 80

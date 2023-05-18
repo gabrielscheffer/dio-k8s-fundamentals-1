@@ -1,8 +1,8 @@
 <?php
-$servername = "";
+$servername = "dio-db";
 $username = "root";
-$password = "Senha123";
-$database = "meubanco";
+$password = "qwerty.1234";
+$database = "desafio1";
 
 // Criar conexão
 
